@@ -7,6 +7,8 @@ import sys
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 
+from docker.utils import kwargs_from_env
+
 from ..code_utils import content_str
 from ..exception_utils import AgentNameConflict, NoEligibleSpeaker, UndefinedNextAgent
 from ..formatting_utils import colored
@@ -622,7 +624,9 @@ class GroupChat:
             else:
                 # Register the only custom model client
                 select_speaker_auto_model_client_cls = self.select_speaker_auto_model_client_cls
-
+            kwargs_for_custom_model = config.get("model_client_cls_kwargs")
+            if kwargs_for_custom_model:
+                agent.register_model_client(select_speaker_auto_model_client_cls, **kwargs_for_custom_model)
             agent.register_model_client(select_speaker_auto_model_client_cls)
 
     def _register_custom_model_clients(self, agent: ConversableAgent):
