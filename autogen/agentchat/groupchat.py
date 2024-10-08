@@ -562,7 +562,7 @@ class GroupChat:
         # auto speaker selection with 2-agent chat
         return self._auto_select_speaker(last_speaker, selector, messages, agents)
 
-    async def a_select_speaker(self, last_speaker: Agent) -> Agent:
+    async def a_select_speaker(self, last_speaker: Agent, selector: ConversableAgent) -> Agent:
         """Select the next speaker (with requery), asynchronously."""
 
         selected_agent, agents, messages = self._prepare_and_select_agents(last_speaker)
